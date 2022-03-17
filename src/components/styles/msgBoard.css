@@ -1,0 +1,11 @@
+.msgs-main-div {
+    text-align: center;
+    background-color: turquoise;
+    width: 40%;
+    padding: 10px;
+}
+
+.card {
+    border: 1px solid black;
+    margin: 5px 2px;
+}
