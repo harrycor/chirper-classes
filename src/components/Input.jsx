@@ -4,9 +4,26 @@ import "./styles/input.css";
 
 const InputApp = () => {
   // 'input' form part      ******
-  // sets state and collects inputs for name/msg
+  let keyNum = 0;
+  let startingPeople;
   const [nameText, setNameText] = useState("");
   const [msgText, setMsgText] = useState("");
+  const [msgBoardItems, setMsgBoardItems] = useState(
+    (startingPeople = [
+      {
+        name: "Bob Belcher",
+        msg: "We cook burgers. Thats it. Jimmy Pesto is a bitch.",
+      },
+      {
+        name: "Charlie Day",
+        msg: "Everywhere I look I see one name, Pepe Silvia. Wild Card.",
+      },
+      {
+        name: "John Smith",
+        msg: "Call me agent Smith",
+      },
+    ])
+  );
   const nameTyping = (e) => {
     setNameText(e.target.value);
   };
@@ -14,51 +31,8 @@ const InputApp = () => {
     setMsgText(e.target.value);
   };
   const btnClicked = () => {
-    console.log("clicked");
-    let newInputSubmit = msgConstructFunc([{ name: nameText, msg: msgText }]);
-    setMsgBoardItems([...msgBoardItems, newInputSubmit]);
+    setMsgBoardItems([...msgBoardItems, { name: nameText, msg: msgText }]);
   };
-
-  //   Message board part     ******
-  // used for key value component
-  let keyNum = 0;
-
-  //   func that creates a card div to be added to msg board
-  const msgConstructFunc = (x) => {
-    return x.map((val) => {
-      keyNum++;
-      return (
-        <div key={keyNum} className="card">
-          <div className="card-body">
-            <h3 className="card-title">{val.name}</h3>
-            <p className="card-text">{val.msg}</p>
-          </div>
-        </div>
-      );
-    });
-  };
-
-  //   list of starting msg board commenters(only thing to note here are the format of 'name' and 'msg'; for when sending to msgConstructFunc)
-  const startingPeople = [
-    {
-      name: "Bob Belcher",
-      msg: "We cook burgers. Thats it. Jimmy Pesto is a bitch.",
-    },
-    {
-      name: "Charlie Day",
-      msg: "Everywhere I look I see one name, Pepe Silvia. Wild Card.",
-    },
-    {
-      name: "John Smith",
-      msg: "Call me agent Smith",
-    },
-  ];
-  // formatting initial msg board divs and values with func
-  const startingConstructed = msgConstructFunc(startingPeople);
-
-  //   sets state of msg board
-  const [msgBoardItems, setMsgBoardItems] = useState(startingConstructed);
-
   //              ************************************
   // this goes to 'Timeline'
   return (
@@ -87,7 +61,19 @@ const InputApp = () => {
           </div>
         </form>
       </div>
-      <MessegeBoard newInput={msgBoardItems} />
+      <MessegeBoard
+        newInput={msgBoardItems.map((val) => {
+          keyNum++;
+          return (
+            <div key={keyNum} className="card">
+              <div className="card-body">
+                <h3 className="card-title">{val.name}</h3>
+                <p className="card-text">{val.msg}</p>
+              </div>
+            </div>
+          );
+        })}
+      />
     </div>
   );
 };
